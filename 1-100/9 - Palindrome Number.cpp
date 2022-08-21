@@ -20,7 +20,6 @@ using namespace std;
 // Output: false
 // Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
 
-
 class Solution {
 public:
     bool isPalindrome(int x) {
