@@ -26,27 +26,27 @@ public:
         	return "";
         }
 
-        string current = strs[0];
+        unsigned substringEnd = unsigned(strs[0].size());
 
         for (unsigned i = 1; i < size; i++) {
         	unsigned sameCount = 0;
 
         	for (unsigned j = 0; j < unsigned(strs[i].size()); j++) {
-        		if (current[j] == strs[i][j]) {
+        		if (strs[0][j] == strs[i][j]) {
         			sameCount += 1;
         		} else {
         			break;
         		}
         	}
 
-        	current.resize(sameCount);
+        	substringEnd = min(sameCount, substringEnd);
 
-        	if (current.empty()) {
+        	if (substringEnd == 0) {
         		return "";
         	}
         }
 
-        return current;
+        return strs[0].substr(0, substringEnd);
     }
 };
 
