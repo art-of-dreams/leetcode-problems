@@ -48,22 +48,13 @@ public:
 
         if (list1) {
             current->next = list1;
-        } else {
+        } 
+
+        if (list2) {
             current->next = list2;
         }
 
         return dummy->next;
-    }
-
-    void print(ListNode* node) {
-        ListNode* n = node;
-
-        while (n) {
-            cout << n->val << " ";
-            n = n->next;
-        }
-
-        cout << endl;
     }
 };
 
