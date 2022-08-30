@@ -37,25 +37,25 @@ public:
     // O(n) space
     bool isPalindrome(ListNode* head) {
     	if (!head) {
-    		return true;
+            return true;
     	}
 
         vector<int> v;
 
         while (head) {
-        	v.push_back(head->val);
-        	head = head->next;
+            v.push_back(head->val);
+            head = head->next;
         }
 
         unsigned start = 0;
         unsigned end = unsigned(v.size()) - 1;
 
         while (start < end) {
-        	if (v[start] != v[end]) {
-        		return false;
-        	}
-        	start += 1;
-        	end -= 1;
+            if (v[start] != v[end]) {
+                return false;
+            }
+            start += 1;
+            end -= 1;
         }
 
         return true;
@@ -103,13 +103,13 @@ private:
 
     bool checkForPalindromeRecursively(ListNode* node) {
     	if (node) {
-    		if (!checkForPalindromeRecursively(node->next)) {
-    			return false;
-    		}
-    		if (node->val != frontPointer->val) {
-    			return false;
-    		}
-    		frontPointer = frontPointer->next;
+            if (!checkForPalindromeRecursively(node->next)) {
+                return false;
+            }
+            if (node->val != frontPointer->val) {
+                return false;
+            }
+            frontPointer = frontPointer->next;
     	}
     	return true;
     }
@@ -147,7 +147,7 @@ private:
 };
 
 int main() {
-	ListNode* list1 = new ListNode(1);
+    ListNode* list1 = new ListNode(1);
 
     ListNode* list1_2 = new ListNode(2);
     list1->next = list1_2;
