@@ -76,6 +76,8 @@ public:
         ListNode* next = node->next;
         node->val = next->val;
         node->next = next->next;
+        next->next = nullptr;
+        delete(next);
     }
 };
 
