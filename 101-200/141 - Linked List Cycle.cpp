@@ -23,6 +23,7 @@
 // Explanation: There is no cycle in the linked list.
 
 #include<iostream>
+#include<set>
 using namespace std;
 
 struct ListNode {
@@ -52,14 +53,10 @@ public:
 
         auto slow = head;
         auto fast = head->next;
-        int counter = 0;
 
         while (fast) {
             slow = slow->next;
             fast = fast->next ? fast->next->next : fast->next;
-
-            counter += 1;
-            cout <<  "c" << counter << endl;
 
             if (slow == fast) {
                 return true;
@@ -76,7 +73,6 @@ public:
 
         ListNode* slow = head;
         ListNode* fast = head->next;
-        int counter = 0;
 
         while (slow != fast) {
             if (!fast || !fast->next) {
@@ -85,12 +81,28 @@ public:
 
             slow = slow->next;
             fast = fast->next->next;
-
-            counter += 1;
-            cout << "c" << counter << endl;
         }
 
         return true;
+    }
+
+    bool hasCycle3(ListNode* head) {
+        if (!head || !head->next) {
+            return false;
+        }
+
+        ListNode* curr = head;
+        set<ListNode *> nodes;
+
+        while (curr) {
+            if (nodes.find(curr) != nodes.end()) {
+                return true;
+            }
+            nodes.insert(curr);
+            curr = curr->next;
+        }
+
+        return false;
     }
 };
 
@@ -112,5 +124,5 @@ int main() {
     list1_5->next = list1_2;
 
     Solution s;
-    cout << "[3,2,0,-4] has cycle = " <<  s.hasCycle(list1) << endl;
+    cout << "[3,2,0,-4] has cycle = " <<  s.hasCycle3(list1) << endl;
 }
