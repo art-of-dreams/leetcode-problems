@@ -124,5 +124,5 @@ int main() {
     list1_5->next = list1_2;
 
     Solution s;
-    cout << "[3,2,0,-4] has cycle = " <<  s.hasCycle3(list1) << endl;
+    cout << "has cycle = " <<  s.hasCycle3(list1) << endl;
 }
