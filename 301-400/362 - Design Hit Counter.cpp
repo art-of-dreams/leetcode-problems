@@ -42,6 +42,7 @@
 #include <iostream>
 #include <map>
 #include <queue>
+#include <deque>
 using namespace std;
 
 class HitCounter {
@@ -49,14 +50,14 @@ public:
     HitCounter() { }
     
     void hit(int timestamp) {
-        hitsByTimestamp[timestamp]++;
+        hits_by_timestamp[timestamp]++;
     }
     
     int getHits(int timestamp) {
         int res = 0;
         int lowerBound = timestamp - 300;
 
-        for (auto iter = hitsByTimestamp.rbegin(); iter != hitsByTimestamp.rend(); ++iter) {
+        for (auto iter = hits_by_timestamp.rbegin(); iter != hits_by_timestamp.rend(); ++iter) {
             if (iter->first <= lowerBound) {
                 break;
             }
@@ -69,7 +70,7 @@ public:
     }
 
 private:
-    map<int, int> hitsByTimestamp;
+    map<int, int> hits_by_timestamp;
 };
 
 class HitCounter2 {
@@ -91,8 +92,36 @@ private:
     queue<int> hits;
 };
 
+class HitCounter3 {
+public:
+    HitCounter3() {
+        total = 0;
+    }
+    
+    void hit(int timestamp) {
+        if (hits_with_count.empty() || hits_with_count.back().first != timestamp) {
+            hits_with_count.push_back(make_pair(timestamp, 1));
+        } else {
+            hits_with_count.back().second++;
+        }
+        total++;
+    }
+    
+    int getHits(int timestamp) {
+        while (!hits_with_count.empty() && (timestamp - hits_with_count.front().first >= 300)) {
+            total -= hits_with_count.front().second;
+            hits_with_count.pop_front();
+        }
+        return total;
+    }
+
+private:
+    deque<pair<int, int>> hits_with_count;
+    int total;
+};
+
 int main() {
-    HitCounter *obj = new HitCounter();
+    HitCounter3 *obj = new HitCounter3();
     obj->hit(1);
     obj->hit(2);
     obj->hit(3);
