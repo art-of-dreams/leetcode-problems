@@ -26,13 +26,29 @@
 #include <stdlib.h>
 
 static int char_to_int(char c) {
-    int num = 0;
-    //Substract '0' from entered char to get
-    //corresponding digit
-    num = c - '0';
+    int num = c - '0';
     return num;
 }
 
+static char int_to_char(int i) {
+    char c = i + '0';
+    return c;
+}
+
+static char* reversed_string(char* str) {
+    int start = 0;
+    int end = strlen(str) - 1;
+
+    while (start < end) {
+        char c = str[end];
+        str[end] = str[start];
+        str[start] = c;
+        start++;
+        end--;
+    }
+
+    return str;
+}
 
 char* addStrings(char* num1, char* num2) {
     int len = strlen(num1);
@@ -42,52 +58,43 @@ char* addStrings(char* num1, char* num2) {
         return addStrings(num2, num1);
     }
 
-    int i = 0;
+    int i = len - 1;
+    int j = len2 - 1;
+    int str_index = 0;
+
     int carry = 0;
     char *str = malloc(len + 2);
 
-    while (i < len2) {
-        int sum = num1[i] + num2[i] + (char)carry;
+    while (i >= 0) {
+        int sum = char_to_int(num1[i]) + carry + (j >= 0 ? char_to_int(num2[j]) : 0);
         char c;
 
         if (sum > 9) {
-            c = sum - 10;
+            c = int_to_char(sum - 10);
             carry = 1;
         } else {
-            c = sum;
+            c = int_to_char(sum);
             carry = 0;
         }
 
-        str[i] = c;
+        str[str_index] = c;
 
-        i++;
-    }
-
-    while (i < len) {
-        int sum = num1[i] + (char)carry;
-
-        char c;
-
-        if (sum > 9) {
-            c = sum - 10;
-            carry = 1;
-        } else {
-            c = sum;
-            carry = 0;
-        }
-
-        str[i] = c;
-
-        i++;
+        i--;
+        j--;
+        str_index++;
     }
 
     if (carry) {
-        str[i] = (char)carry;
+        char c = int_to_char(carry);
+        str[str_index] = c;
+        str_index++;
     }
 
-    return str;
+    str[str_index] = '\0';
+
+    return reversed_string(str);
 }
 
 int main(int argc, char const *argv[]) {
-    printf("%s\n", addStrings("56", "75"));
+    printf("%s\n", addStrings("19", "123"));
 }
