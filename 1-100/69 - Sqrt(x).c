@@ -19,6 +19,7 @@
 // 0 <= x <= 2^31 - 1
 
 #include "stdio.h"
+#include "math.h"
 
 int mySqrt(int x) {
     if (x < 4) {
@@ -30,8 +31,8 @@ int mySqrt(int x) {
     int sqr = 0;
 
     while (start <= end) {
-        int mid = start + (end - start) / 2;
-        unsigned long res = mid * mid;
+        long mid = start + (end - start) / 2;
+        long res = mid * mid;
 
         if (res == x) {
             return mid;
@@ -46,8 +47,23 @@ int mySqrt(int x) {
     return sqr;
 }
 
+int mySqrt2(int x) {
+    if (x < 2)
+        return x;
+
+    double x0 = x;
+    double x1 = (x0 + x / x0) / 2.0;
+
+    while (fabs(x0 - x1) >= 1) {
+        x0 = x1;
+        x1 = (x0 + x / x0) / 2.0;
+    }
+
+    return (int)x1;
+}
+
 int main() {
-    printf("%d\n", mySqrt(4));
-    printf("%d\n", mySqrt(8));
-    printf("%d\n", mySqrt(1073697798));
+    printf("%d\n", mySqrt2(4));
+    printf("%d\n", mySqrt2(8));
+    printf("%d\n", mySqrt2(10));
 }
