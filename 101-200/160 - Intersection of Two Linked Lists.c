@@ -53,9 +53,17 @@ struct ListNode {
 };
 
 struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
-    
+    struct ListNode* first = headA;
+    struct ListNode* second = headB;
+
+    while (first != second) {
+        first = first ? first->next : headB;
+        second = second ? second->next : headA;
+    }
+
+    return first;
 }
 
 int main() {
-    
+
 }
