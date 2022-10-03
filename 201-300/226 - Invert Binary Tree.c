@@ -12,11 +12,11 @@
 // Input: root = []
 // Output: []
 
- 
-
 // Constraints:
 //     The number of nodes in the tree is in the range [0, 100].
 //     -100 <= Node.val <= 100
+
+#include <stdlib.h>
 
 struct TreeNode {
     int val;
@@ -24,8 +24,14 @@ struct TreeNode {
     struct TreeNode *right;
 };
 
+struct LinkedListNode {
+    struct TreeNode *node;
+    struct LinkedListNode *next;
+};
+
 static void invertTreeNode(struct TreeNode* node) {
-    if (!node) return;
+    if (!node)
+        return;
 
     struct TreeNode* temp = node->left;
     node->left = node->right;
@@ -37,6 +43,45 @@ static void invertTreeNode(struct TreeNode* node) {
 
 struct TreeNode* invertTree(struct TreeNode* root) {
     invertTreeNode(root);
+    return root;
+}
+
+struct TreeNode* invertTree2(struct TreeNode* root) {
+    if (!root) return NULL;
+
+    struct LinkedListNode* head = (struct LinkedListNode*)malloc(sizeof(struct LinkedListNode));
+    head->node = root;
+    head->next = NULL;
+
+    struct LinkedListNode* tail = head;
+
+    while (head) {
+        struct LinkedListNode* curr = head;
+
+        struct TreeNode* temp = curr->node->left;
+        curr->node->left = curr->node->right;
+        curr->node->right = temp;
+
+        if (curr->node->left) {
+            struct LinkedListNode* next = (struct LinkedListNode*)malloc(sizeof(struct LinkedListNode));
+            next->node = curr->node->left;
+            next->next = NULL;
+            tail->next = next;
+            tail = next;
+        }
+
+        if (curr->node->right) {
+            struct LinkedListNode* next = (struct LinkedListNode*)malloc(sizeof(struct LinkedListNode));
+            next->node = curr->node->right;
+            next->next = NULL;
+            tail->next = next;
+            tail = next;
+        }
+
+        head = curr->next;
+        free(curr);
+    }
+
     return root;
 }
 
