@@ -36,10 +36,9 @@ static int longestPath(struct TreeNode* node) {
 
     int left = longestPath(node->left);
     int right = longestPath(node->right);
+    int max = left > right ? left : right;
     int sum = left + right;
     diameter = diameter > sum ? diameter : sum;
-
-    int max = (left > right) ? left : right;
     return max + 1;
 }
 
