@@ -110,9 +110,77 @@ bool isSymmetric(struct TreeNode* root) {
     return isMirror(root, root);
 }
 
+struct TreeListNode {
+    struct TreeNode* treeNode;
+    struct TreeListNode* next;
+};
+
+static struct TreeListNode* removeHead(struct TreeListNode* head) {
+    if (!head) return NULL;
+    struct TreeListNode* res = head->next;
+    return res;
+}
+
+static struct TreeListNode* appendNode(struct TreeListNode* tail, struct TreeNode* treeNode) {
+    struct TreeListNode* node = (struct TreeListNode*)malloc(sizeof(struct TreeListNode));
+    node->treeNode = treeNode;
+    node->next = NULL;
+    if (tail) {
+        tail->next = node;   
+    }
+    return node;
+}
+
+bool isSymmetric2(struct TreeNode* root) {
+    struct TreeListNode* root1 = (struct TreeListNode*)malloc(sizeof(struct TreeListNode));
+    root1->treeNode = root;
+    root1->next = NULL;
+
+    struct TreeListNode* root2 = (struct TreeListNode*)malloc(sizeof(struct TreeListNode));
+    root2->treeNode = root;
+    root2->next = NULL;
+
+    root1->next = root2;
+
+    struct TreeListNode* head = root1;
+    struct TreeListNode* tail = root2;
+
+    while (head) {
+        struct TreeNode* curr1 = head->treeNode;
+        struct TreeListNode* oldHead1 = head;
+        head = removeHead(head);
+        free(oldHead1);
+        
+        struct TreeNode* curr2 = head->treeNode;
+        struct TreeListNode* oldHead2 = head;
+        head = removeHead(head);
+        free(oldHead2);
+        
+        if (!head) {
+            tail = NULL;
+        }
+
+        if (!curr1 && !curr2) continue;
+        if (!curr1 || !curr2) return false;
+        if (curr1->val != curr2->val) return false;
+
+        tail = appendNode(tail, curr1->left);
+
+        if (!head) {
+            head = tail;
+        }
+
+        tail = appendNode(tail, curr2->right);
+        tail = appendNode(tail, curr1->right);
+        tail = appendNode(tail, curr2->left);
+    }
+
+    return true;
+}
+
 int main() {
     int arr[] = { 1,2,2,3,4,4,3 };
     int n = sizeof(arr)/sizeof(arr[0]);
     struct TreeNode* root = create_tree(arr, n);
-    printf("%d\n", isSymmetric(root));
+    printf("%d\n", isSymmetric2(root));
 }
