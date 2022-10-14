@@ -20,25 +20,24 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
-#include <set>
 using namespace std;
 
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<char, unsigned> map;
-        set<unsigned> set;
+        ios_base::sync_with_stdio(0);
 
-        for (unsigned i = 0; i < unsigned(s.size()); i++) {
-            if (map.find(s[i]) != map.end()) {
-                set.erase(map[s[i]]);
-            } else {
-                map.insert(make_pair(s[i], i));
-                set.insert(i);
-            }
+        int m[256]= {};
+
+        for (auto x: s) {
+            m[x]++;
         }
 
-        return set.empty() ? -1 : (int)*set.begin();
+        for(unsigned i = 0; i < s.size(); i++)
+            if(m[s[i]] == 1)
+                return int(i);
+
+        return -1;
     }
 };
 
