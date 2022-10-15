@@ -27,7 +27,7 @@ public:
     int firstUniqChar(string s) {
         ios_base::sync_with_stdio(0);
 
-        int m[256]= {};
+        int m[128]= {};
 
         for (auto x: s) {
             m[x]++;
