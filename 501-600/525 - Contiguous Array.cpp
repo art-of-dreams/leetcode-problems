@@ -69,6 +69,28 @@ public:
 
         return maxLength;
     }
+
+    int findMaxLength3(vector<int>& nums) {
+        int size = (int)nums.size();
+        int n = 2 * size + 1;
+        int arr[n];
+        fill_n(arr, n, -2);
+        arr[size] = -1;
+        int max = 0, count = 0;
+
+        for (int i = 0; i < size; i++) {
+            count += (nums[i] == 1) ? 1 : -1;
+
+            if (arr[count + size] >= -1) {
+                int curr = i - arr[count + size];
+                max = max > curr ? max : curr;
+            } else {
+                arr[count + size] = i;
+            }
+        }
+
+        return max;
+    }
 };
 
 int main () {
