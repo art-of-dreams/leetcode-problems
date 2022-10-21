@@ -44,6 +44,6 @@ uint32_t reverseBits(uint32_t n) {
 }
 
 int main() {
-    printf("%d\n", reverseBits(43261596));
-    printf("%d\n", reverseBits(4294967293));
+    printf("%u\n", reverseBits(43261596));
+    printf("%u\n", reverseBits(4294967293));
 }
