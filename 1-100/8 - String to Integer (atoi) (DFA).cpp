@@ -58,6 +58,7 @@ class StateMachine {
 			} else {
 				// If sign is -1, clamp result to INT_MIN.
 				result = INT_MIN;
+				sign = 1;
 			}
 
 			// When the 32-bit int range is exceeded, a dead state is reached.
@@ -113,7 +114,7 @@ public:
 
 	// Return the final result formed with it's sign.
 	int getInteger() {
-		return result * sign;
+		return sign * result;
 	}
 
 	// Get current state.
