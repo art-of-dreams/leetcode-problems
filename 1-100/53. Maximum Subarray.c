@@ -44,6 +44,47 @@ int maxSubArray(int* nums, int numsSize) {
     return result;
 }
 
+static int findBestSubarray(int left, int right, int* nums, int numsSize) {
+    if (left > right) {
+        return INT_MIN;
+    }
+
+    int mid = left + ((right - left) / 2);
+    int curr = 0;
+    int bestLeft = 0;
+    int bestRight = 0;
+
+    // Iterate from the middle to the beginning.
+    for (int i = mid - 1; i >= left; i--) {
+        curr += nums[i];
+        bestLeft = curr > bestLeft ? curr : bestLeft;
+    }
+
+    // Reset curr and iterate from the middle to the end.
+    curr = 0;
+
+    for (int i = mid + 1; i <= right; i++) {
+        curr += nums[i];
+        bestRight = curr > bestRight ? curr : bestRight;
+    }
+
+    // The bestCombined uses the middle element and the best
+    // possible sum from each half.
+    int bestCombined = bestLeft + bestRight + nums[mid];
+
+    // Find the best subarray possible from both halves.
+    int recursiveLeft = findBestSubarray(left, mid - 1, nums, numsSize);
+    int recursiveRight = findBestSubarray(mid + 1, right, nums, numsSize);
+
+    // The largest of the 3 is the answer for any given input array.
+    int bestSide = recursiveRight > recursiveLeft ? recursiveRight : recursiveLeft;
+    return bestSide > bestCombined ? bestSide : bestCombined;
+}
+
+int maxSubArray2(int* nums, int numsSize) {
+    return findBestSubarray(0, numsSize - 1, nums, numsSize);
+}
+
 int main() {
 
 }
