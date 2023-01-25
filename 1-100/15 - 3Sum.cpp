@@ -29,6 +29,7 @@
 
 #include <vector>
 #include <iostream>
+#include <unordered_set>
 using namespace std;
 
 class Solution {
@@ -51,6 +52,24 @@ class Solution {
                     low++;
                 }
             }
+        }
+    }
+
+    void twoSum2(vector<int>& nums, unsigned index, vector<vector<int>>& result) {
+        unordered_set<int> seen;
+
+        for (unsigned i = index + 1; i < nums.size(); i++) {
+            int complement = -nums[index] - nums[i];
+
+            if (seen.count(complement)) {
+                result.push_back({nums[index], complement, nums[i]});
+
+                while (i + 1 < nums.size() && nums[i] == nums[i + 1]) {
+                    i++;
+                }
+            }
+
+            seen.insert(nums[i]);
         }
     }
 
